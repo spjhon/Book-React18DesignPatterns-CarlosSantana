@@ -120,3 +120,31 @@ Good Practices:
 - Por ejemplo en lugar de utilizar solo los atributos del prop, buscar utilizar mas a menudo los children para pasar elementos enteros dentro de otros elementos, por ejemplo en lugar de pasar un prop text se pasaria un children parragpraph.
 
 ### 4.2. Exploring the container and presentational patterns
+
+La idea es tener un componente separado en dos componentes, uno se dedica a la logica solamente y otro se dedica a la presentacion.
+
+The following are the characteristics of container components:
+
+- They are more concerned with behavior.
+- They render their presentational components.
+- They make API calls and manipulate data.
+- They define event handlers.
+
+The following are the characteristics of presentational components:
+
+- They are more concerned with the visual representation.
+- They render the HTML markup (or other components).
+- They receive data from the parents in the form of props.
+- They are often written as stateless functional components.
+
+#### 4.2.3. Higher order component example
+
+HOCs are functions that take a component as input and return an enhanced component as output, en el segundo ejemplo del chapter 4 se muestra por ejemplo la necesidad de agregar el mismo className a todos los componentes, lo que se hace es crear un componente con el className y que se convierta en una especie de envoltura para otros componentes.
+
+```jsx
+const withClassName = Component => props => (
+ <Component {...props} className="my-class" />
+)
+```
+
+- In the React community, it’s common to use the with prefix for HOCs.
