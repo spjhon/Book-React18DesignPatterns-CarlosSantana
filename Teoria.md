@@ -87,6 +87,16 @@ const log = fn => (...args) => {
  return fn(...args)
 }
 const logAdd = log(add)
+
+//Lo que es equivalente a:
+
+function log(fn) {
+  return function(...args) {
+    const result = fn(...args);
+    console.log(`Arguments: ${args.join(', ')}, Result: ${result}`);
+    return result;
+  };
+}
 ```
 
 ### Tips
@@ -148,3 +158,36 @@ const withClassName = Component => props => (
 ```
 
 - In the React community, it’s common to use the with prefix for HOCs.
+- HOCs typically spread the props they receive on the component because they aim to be transparent and only add new behavior.
+- Ver el segundo ejemplo del chapter 04, HOCS.
+
+#### Understanding FunctionAsChild
+
+El concepto principal es que en lugar de pasar un hijo como componente, definimos una función que puede recibir parámetros del padre. Veamos cómo se ve:
+
+```javascript
+const FunctionAsChild = ({ children }) => children()
+```
+
+la idea es utilizarlo de la siguiente forma:
+
+```javascript
+<FunctionAsChild>
+ {() => <div>Hello, World!</div>}
+</FunctionAsChild>
+```
+
+Otro ejemplo:
+
+```javascript
+const Name = ({ children }) => children('World')
+
+<Name>
+ {name => <div>Hello, {name}!</div>}
+</Name>
+```
+
+Ventajas de este pattern:
+
+- Encapsular componentes
+- Componer componentes con este enfoque no obliga a los hijos a usar nombres de propiedades predefinidos.
