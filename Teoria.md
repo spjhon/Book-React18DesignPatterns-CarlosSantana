@@ -63,21 +63,21 @@ En esta seccion se cubre los siguientes temas:
 - How linting, and ESLint in particular, can make our JavaScript code consistent across applications and teams.
 - The basics of functional programming and why following a functional paradigm will make us write better React components.
 
-### Git Hooks
+### 3.1. Git Hooks
 
 To avoid having unlinted code in our repository, what we can do is add ESLint at one point of our process using Git Hooks.
 
-### Functional programming
+### 3.2. Functional programming
 
 FP principles, such as **immutability**, **pure functions**, and **higher-order functions**, **Currying**, **Composition** can help us write more maintainable and testable code.
 
 - Higher-order functions, which take functions as arguments and/or return functions as output, can help us create more modular and reusable code.
 
-#### Currying (pagina 56)
+#### 3.3. Currying (pagina 56)
 
 Currying is the process of converting a function that takes multiple arguments into a function one argument at a time and returning another function.
 
-#### Higher Order Functions
+#### 3.4. Higher Order Functions
 
 HoFs are functions that take a function as a parameter, and optionally some other parameters, and return a function. The returned function is usually enhanced with some special behaviors.
 
@@ -161,7 +161,7 @@ const withClassName = Component => props => (
 - HOCs typically spread the props they receive on the component because they aim to be transparent and only add new behavior.
 - Ver el segundo ejemplo del chapter 04, HOCS.
 
-#### Understanding FunctionAsChild
+#### 4.2.3. Understanding FunctionAsChild
 
 El concepto principal es que en lugar de pasar un hijo como componente, definimos una función que puede recibir parámetros del padre. Veamos cómo se ve:
 
@@ -191,3 +191,20 @@ Ventajas de este pattern:
 
 - Encapsular componentes
 - Componer componentes con este enfoque no obliga a los hijos a usar nombres de propiedades predefinidos.
+- composing components dynamically.
+
+## 5. Writing Code for the Browser
+
+we will dive into controlled vs. uncontrolled components, refs, handling events, and animations in React.
+
+In this chapter, we will go through the following topics:
+
+- Using different techniques to create forms with React
+- Listening to DOM events and implementing custom handlers
+- A way of performing imperative operations on DOM nodes using refs (MAS INFORMACION EN EL EJERCICIO 006 DEL REPOSITORIO DE GRIDDER)
+- Creating simple animations that work across different browsers
+- The React way of generating SVG.
+
+### 5.1. Understanding and implementing forms
+
+#### 5.1.1. Uncontrolled components
