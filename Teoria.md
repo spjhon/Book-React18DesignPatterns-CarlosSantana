@@ -207,4 +207,24 @@ In this chapter, we will go through the following topics:
 
 ### 5.1. Understanding and implementing forms
 
-#### 5.1.1. Uncontrolled components
+#### 5.1.1. Uncontrolled and Controlled components
+
+Un componente formulario no controlado es aquel en cuyos inputs va el valor del state, controlando en cada render que muestra en el input, mientras que uno no controlado siempre va a tener el valor que el usuario da.
+
+Resumen:
+
+- **Componentes controlados:** El estado del formulario es manejado completamente por el componente React. Cada cambio en el formulario actualiza el estado del componente.
+- **Componentes no controlados:** El estado del formulario no es manejado por el componente React. Los valores de los elementos del formulario se manejan directamente a través del DOM.
+En términos prácticos, los componentes controlados son generalmente preferidos en React, ya que proporcionan un control más explícito sobre los datos y son más consistentes con la filosofía de React de tener una única fuente de verdad (el estado del componente).
+
+#### 5.1.2. Handling events
+
+Curiosamente no todos los browser hacen o poseen los mismos eventos, entonces REACT busca que el escribir eventHandlers sea mas facil.
+
+Este es el pattern comun de react para capturar eventos por medio del "on", Grider explica mejor este aspecto, en este repositorio se utiliza el switch project.
+
+- A common practice is to write a single event handler for each component, which can trigger different actions according to the event type.
+
+#### 5.1.3. Exploring refs
+
+React is **declarative**, but, there might be some cases where you need to access the underlying DOM nodes to perform some imperative operations. This should be avoided.
