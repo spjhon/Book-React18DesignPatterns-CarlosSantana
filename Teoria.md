@@ -6,6 +6,8 @@
 
 - One of the reasons why React is so powerful is that it enforces a declarative programming paradigm.
 - La programación declarativa tiende a evitar la creación y mutación de un estado.
+- React follows a declarative paradigm, and there’s no need to tell it how to interact with the DOM; you declare what you want to see on the screen.
+- To control the UI flow, React uses a particular type of object called an element.
 
 ### 1.1. Unlearning everything
 
@@ -14,6 +16,11 @@ Templates engines como Mustache puede que de cierta sensacion de separacion de r
 ### 1.2. Understanding JavaScript fatigue
 
 Se tiene la misconcepcion de que react es muy grande, sin embargo es una libreria pequeña.
+
+React is split into two packages:
+
+- **react:** Implements the core features of the library
+- **react-dom:** Contains all the browser-related features
 
 ### 1.3. Getting started with React without the fatigue
 
@@ -63,37 +70,175 @@ En esta seccion se cubre los siguientes temas:
 - How linting, and ESLint in particular, can make our JavaScript code consistent across applications and teams.
 - The basics of functional programming and why following a functional paradigm will make us write better React components.
 
-### 3.1. Git Hooks
+### 3.1. Common JSX patterns
+
+#### 3.1.1. Multiline
+
+```tsx
+<div>
+ <Header />
+    <div>
+     <Main content={...} />
+    </div>
+</div>
+
+//no olvidar el return cuando es multilinea utilizar los parentesis
+return ( 
+ <div /> 
+)
+```
+
+#### 3.1.2. Multi-properties
+
+A common solution is to write each attribute on a new line, with one level of indentation, and then align the closing bracket with the opening tag:
+
+```tsx
+<button
+ foo="bar"
+ veryLongPropertyName="baz"
+ onSomething={this.handleSomething}
+/>
+```
+
+#### 3.1.3. Conditionals
+
+```tsx
+let button
+ 
+if (isLoggedIn) { 
+ button = <LogoutButton />
+} 
+ 
+return <div>{button}</div>
+```
+
+In line conditional (terneary operation)
+
+```tsx
+<div> 
+ {isLoggedIn && <LoginButton />} 
+</div>
+```
+
+Utilizando un "else":
+
+```tsx
+let button
+
+if (isLoggedIn) { 
+ button = <LogoutButton />
+} else { 
+ button = <LoginButton />
+} 
+ 
+return <div>{button}</div>
+```
+
+Alternativamente se puede utilizar un corto circuito:
+
+```tsx
+<div> 
+ {isLoggedIn ? <LogoutButton /> : <LoginButton />} 
+</div>
+```
+
+```tsx
+<button [...]> 
+ {isFetching ? 'Loading...' : 'Load More'} 
+</button>
+```
+
+```tsx
+<div>
+ {dataIsReady && (isAdmin || userHasPermissions) && 
+ <SecretData />
+ }
+</div>
+```
+
+Un ejemplo de un componente mas completo con condicionales
+
+```tsx
+const MyComponent = ({ dataIsReady, isAdmin, userHasPermissions }) => {
+ const canShowSecretData = () => { 
+ return dataIsReady && (isAdmin || userHasPermissions)
+ } 
+ 
+ return (
+ <div> 
+ {canShowSecretData() && <SecretData />} 
+ </div>
+ )
+}
+```
+
+#### 3.1.4. Loops
+
+If we write a function that returns an array inside our JSX template, each element of the array gets compiled into an element.
+
+```tsx
+<ul> 
+ {users.map(user => <li>{user.name}</li>)} 
+</ul>
+```
+
+#### 3.1.5. Sub-rendering
+
+Split it into smaller functions in a way that lets us keep all the logic in the same component.
+
+```tsx
+const renderUserMenu = () => { 
+ // JSX for user menu 
+} 
+ 
+const renderAdminMenu = () => { 
+ // JSX for admin menu 
+} 
+ 
+return ( 
+ <div> 
+ <h1>Welcome back!</h1> 
+ {userExists && renderUserMenu()} 
+ {userIsAdmin && renderAdminMenu()} 
+ </div> 
+)
+```
+
+This is not always considered best practice because it seems more obvious to split the component into smaller ones. However, sometimes it helps to keep the render method cleaner.
+
+### 3.2. Git Hooks
 
 To avoid having unlinted code in our repository, what we can do is add ESLint at one point of our process using Git Hooks.
 
-### 3.2. Functional programming
+### 3.3. Functional programming
 
 FP principles, such as **immutability**, **pure functions**, and **higher-order functions**, **Currying**, **Composition** can help us write more maintainable and testable code.
 
 - Higher-order functions, which take functions as arguments and/or return functions as output, can help us create more modular and reusable code.
 
-#### 3.3. Currying (pagina 56)
+#### 3.4. Currying (pagina 56)
 
 Currying is the process of converting a function that takes multiple arguments into a function one argument at a time and returning another function.
 
-#### 3.4. Higher Order Functions
+#### 3.5. Higher Order Functions
 
 HoFs are functions that take a function as a parameter, and optionally some other parameters, and return a function. The returned function is usually enhanced with some special behaviors.
 
 ```javascript
-const add = (x, y) => x + y
-const log = fn => (...args) => { 
- return fn(...args)
-}
-const logAdd = log(add)
+const add = (x, y) => x + y;
+const log =
+  (fn) =>
+  (...args) => {
+    return fn(...args);
+  };
+const logAdd = log(add);
 
 //Lo que es equivalente a:
 
 function log(fn) {
-  return function(...args) {
+  return function (...args) {
     const result = fn(...args);
-    console.log(`Arguments: ${args.join(', ')}, Result: ${result}`);
+    console.log(`Arguments: ${args.join(", ")}, Result: ${result}`);
     return result;
   };
 }
@@ -122,6 +267,19 @@ Se recomienda instalar la siguiente lista de pluggins esLint:
 - The container and presentational patterns and how they can make our code more maintainable
 - What higher-order components (HOCs) are and how, thanks to them, we can structure our applications in a better way
 - What the function of the child component pattern is and what its benefits are.
+
+### 4.1. Communicating components
+
+Composing React components is straightforward; you just have to include them in the render:
+
+```jsx
+const Profile = ({ user }) => ( 
+ <>
+ <Picture profileImageUrl={user.profileImageUrl} /> 
+ <UserName name={user.name} screenName={user.screenName} /> 
+ </> 
+)
+```
 
 ### 4.1. The Children Prop
 
@@ -152,9 +310,8 @@ The following are the characteristics of presentational components:
 HOCs are functions that take a component as input and return an enhanced component as output, en el segundo ejemplo del chapter 4 se muestra por ejemplo la necesidad de agregar el mismo className a todos los componentes, lo que se hace es crear un componente con el className y que se convierta en una especie de envoltura para otros componentes.
 
 ```jsx
-const withClassName = Component => props => (
- <Component {...props} className="my-class" />
-)
+const withClassName = (Component) => (props) =>
+  <Component {...props} className="my-class" />;
 ```
 
 - In the React community, it’s common to use the with prefix for HOCs.
@@ -166,15 +323,13 @@ const withClassName = Component => props => (
 El concepto principal es que en lugar de pasar un hijo como componente, definimos una función que puede recibir parámetros del padre. Veamos cómo se ve:
 
 ```javascript
-const FunctionAsChild = ({ children }) => children()
+const FunctionAsChild = ({ children }) => children();
 ```
 
 la idea es utilizarlo de la siguiente forma:
 
 ```javascript
-<FunctionAsChild>
- {() => <div>Hello, World!</div>}
-</FunctionAsChild>
+<FunctionAsChild>{() => <div>Hello, World!</div>}</FunctionAsChild>
 ```
 
 Otro ejemplo:
@@ -215,7 +370,7 @@ Resumen:
 
 - **Componentes controlados:** El estado del formulario es manejado completamente por el componente React. Cada cambio en el formulario actualiza el estado del componente.
 - **Componentes no controlados:** El estado del formulario no es manejado por el componente React. Los valores de los elementos del formulario se manejan directamente a través del DOM.
-En términos prácticos, los componentes controlados son generalmente preferidos en React, ya que proporcionan un control más explícito sobre los datos y son más consistentes con la filosofía de React de tener una única fuente de verdad (el estado del componente).
+  En términos prácticos, los componentes controlados son generalmente preferidos en React, ya que proporcionan un control más explícito sobre los datos y son más consistentes con la filosofía de React de tener una única fuente de verdad (el estado del componente).
 
 #### 5.1.2. Handling events
 
@@ -227,4 +382,12 @@ Este es el pattern comun de react para capturar eventos por medio del "on", Grid
 
 #### 5.1.3. Exploring refs
 
+- **Refs in React are a mechanism to access and interact with the DOM elements rendered by a component. They provide a way to modify the DOM or access DOM properties directly**
+
 React is **declarative**, but, there might be some cases where you need to access the underlying DOM nodes to perform some imperative operations. This should be avoided.
+
+- **useRef is a React Hook that lets you reference a value that’s not needed for rendering.**
+
+#### 5.1.4. Understanding forwardRef
+
+React.forwardRef is a higher-order component that allows you to pass a ref down to a child component.
