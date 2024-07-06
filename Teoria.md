@@ -391,3 +391,9 @@ React is **declarative**, but, there might be some cases where you need to acces
 #### 5.1.4. Understanding forwardRef
 
 React.forwardRef is a higher-order component that allows you to pass a ref down to a child component.
+
+#### 5.1.5. Implementing animations
+
+React comes with an add-on, called react-transition-group, which is a component that helps us build animations in a declarative way.
+
+`npm install --save react-transition-group @types/react-transition-group`
