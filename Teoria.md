@@ -397,3 +397,49 @@ React.forwardRef is a higher-order component that allows you to pass a ref down 
 React comes with an add-on, called react-transition-group, which is a component that helps us build animations in a declarative way.
 
 `npm install --save react-transition-group @types/react-transition-group`
+
+Los datos del libro estan obsoletos ya, entonces se aplica un ejemplo obtenido directamente de la documentacion y mejorado por medio de chatGPT.
+
+#### 5.1.6. Exploring SVG
+
+Desde el punto de vista de React, no hay ninguna diferencia si mostramos un elemento div o un elemento SVG desde el método render, y esto es lo que lo hace tan poderoso. También tendemos a elegir SVG porque podemos modificarlos fácilmente en tiempo de ejecución usando CSS y JavaScript, lo que los convierte en un excelente candidato para el enfoque funcional de React.
+
+Esto es bastante poderoso cuando construimos interfaces de usuario, especialmente en un equipo donde compartimos nuestro conjunto de íconos y queremos tener algunos valores predeterminados en él, pero también queremos permitir que otros equipos decidan sus configuraciones sin tener que recrear las mismas formas SVG.
+
+## 6. Making Your Components Look Beautiful
+
+Repasaremos todas las razones por las cuales el CSS regular puede no ser el mejor enfoque para estilizar componentes, y exploraremos varias soluciones alternativas.
+
+En este capítulo, cubriremos los siguientes temas:
+
+- Problemas comunes con CSS regular a gran escala
+- Qué significa usar estilos inline en React y sus desventajas
+- Cómo configurar un proyecto desde cero utilizando Webpack y módulos CSS
+- Características de los módulos CSS y por qué representan una gran solución para evitar el CSS global
+- styled-components, una nueva biblioteca que ofrece un enfoque moderno para estilizar componentes de React.
+
+### 6.1. CSS in JavaScript
+
+Los problemas mas comunes de CSS:
+
+- Global namespace
+- Dependencies
+- Dead code elimination
+- Minification
+- Sharing constants
+- Non-deterministic resolution
+- Isolation
+
+### 6.2 Understanding and implementing inline styles
+
+Observar el ejemplo de inline style de sotrybook o el ejemplo in-line style de este repositorio en el capitulo 6, las desventajas de este sistema son:
+
+- Con los estilos en línea, no es posible usar pseudo-selectores (por ejemplo,:hover) y pseudo-elementos, lo cual es una limitación bastante significativa si estás creando una interfaz de usuario con interacciones y animaciones.
+- Media queries, que no pueden ser definidas usando estilos en línea, y esto dificulta la creación de aplicaciones web responsivas. Dado que los estilos se declaran utilizando objetos de JavaScript, tampoco es posible usar estilos de respaldo.
+- Another feature of CSS that it is not possible to emulate using inline styles is animations.
+
+### 6.3. Using CSS modules
+
+En el mundo de React, Webpack es especialmente popular porque ofrece muchas características interesantes y útiles, siendo la primera el concepto de loaders. Con Webpack, puedes potencialmente cargar cualquier dependencia aparte de JavaScript, si existe un loader para ellas. Por ejemplo, puedes cargar archivos JSON, así como imágenes y otros recursos, dentro del bundle.
+
+- En este capitulo se presenta una buena introduccion a instalar webpack en un projecto sin react, en el repositorio de storybook, el ejemplo es desde el engine de storybook.
