@@ -443,3 +443,152 @@ Observar el ejemplo de inline style de sotrybook o el ejemplo in-line style de e
 En el mundo de React, Webpack es especialmente popular porque ofrece muchas características interesantes y útiles, siendo la primera el concepto de loaders. Con Webpack, puedes potencialmente cargar cualquier dependencia aparte de JavaScript, si existe un loader para ellas. Por ejemplo, puedes cargar archivos JSON, así como imágenes y otros recursos, dentro del bundle.
 
 - En este capitulo se presenta una buena introduccion a instalar webpack en un projecto sin react, en el repositorio de storybook, el ejemplo es desde el engine de storybook.
+- Tambien toca el tema de Atomic CSS y el concepto de Atomic CSS Modules.
+
+El siguiente es un ejemplo de composicion css utilizando atomic css modules
+
+Let’s look at an example:
+
+```css
+.title {
+ composes: mb0 fw6;
+}
+```
+
+Here’s another example:
+
+```jsx
+<h2 className={styles.title}>Hello React</h2>
+```
+
+### 6.4. Implementing styled-components
+
+Styles components es una libreria que junta todos los aspectos de css modules, clases uilitarias y composicion utilizando un sistema de template con el añadido que se pueden utilizar pseudo clases y animaciones y mucha cosas que librerias como tailwind carece.
+
+## 7. Anti-Patterns to Be Avoided
+
+In this chapter, we will cover the following topics:
+
+- Initializing the state using properties
+- Using indexes as a key
+- Spreading properties on DOM elements
+
+### 7.1. Initializing the state using properties
+
+- Inizializar state con props es un anti-pattern y hay que tener cuidado
+
+### 7.2. Using indexes as a key
+
+In Chapter 15, Improving the Performance of Your Applications, which talks about performance and the reconciler, we saw how we can help React figure out the shortest path to update the DOM  by using the key prop.
+
+Entonces una forma de vencer este antipattern es el siguiente:
+
+La fecha se utilizó como un método rápido para generar un identificador único, pero no es necesariamente la mejor opción. En su lugar, podrías usar un identificador único generado, como un UUID (Universally Unique Identifier). Aquí te dejo una versión mejorada usando `uuid` para generar identificadores únicos:
+
+Primero, instala la librería `uuid` si no la tienes instalada:
+
+```bash
+npm install uuid
+```
+
+Luego, actualiza tu componente para usar `uuid`:
+
+```jsx
+import { FC, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+
+const List: FC = () => {
+  const [items, setItems] = useState([
+    { id: uuidv4(), value: "foo" },
+    { id: uuidv4(), value: "bar" }
+  ]);
+
+  const handleClick = () => {
+    const newItems = [{ id: uuidv4(), value: "baz" }, ...items];
+    setItems(newItems);
+  };
+
+  return (
+    <div>
+      <ul>
+        {items.map(item => (
+          <li key={item.id}>
+            {item.value}
+            <input type="text" />
+          </li>
+        ))}
+      </ul>
+      <button onClick={handleClick}>+</button>
+    </div>
+  );
+};
+
+export default List;
+```
+
+En este ejemplo, `uuidv4()` se utiliza para generar un identificador único para cada elemento, garantizando que las llaves sean siempre únicas y estables.
+
+### 7.3. Spreading properties on DOM elements
+
+We usually spread the properties to the elements to avoid writing every single one manually, which is shown as follows:
+
+```jsx
+<Component {...props} />
+```
+
+However, when we spread properties into a DOM element, we run the risk of adding unknown HTML attributes, which is bad practice.
+
+## 8. React Hooks
+
+With Hooks, we can manage the state, handle side effects, and reuse code in a more concise and readable way
+
+In this chapter, we will cover the following topics:
+
+- The new React Hooks and how to use them
+- The rules of the Hooks
+- How to migrate a class component to React Hooks
+- Understanding the component life cycle with Hooks and effects
+- How to fetch data with Hooks
+- How to memoize components, values, and functions with memo, useMemo, and useCallback
+- How to implement useReducer
+
+### 8.1. Using the State Hook
+
+#### 8.1.1. Rules of Hooks
+
+React Hooks are basically JavaScript functions, but there are two rules that you need to follow in order to use them.
+
+React provides a linter plugin to enforce those rules for you, which you can install by running the following command:
+
+`npm install --save-dev eslint-plugin-react-hooks`
+
+- **Rule 1: Only call Hooks at the top level**: To ensure the proper functioning of React Hooks, it is important to avoid calling them inside loops, conditions, or nested functions
+
+- **Rule 2: Only call Hooks from React functions**
+
+Se muestra un componente de tipo clase que hace un fetch y luego re-escrito utilizando el useEffect, useLayoutEffect, useCallback, useMemo, and memo. Cada uno de estos hooks estan explicados mejor en el repositorio principal.
+
+- I have a rule when it comes to establishing whether it is a good idea to use memo, and this rule is straightforward: just don’t use it. Normally, when we have small components or basic logic, we don’t need this unless you’re working with large data from some API, your component needs to perform a lot of renders (normally huge lists), or when you  notice that your app is going slow. Only in that case would I recommend using memo.
+
+Para entender mejor los tres hooks que ayudan a que cuando se hacen side effect, estas tres ayuden a que diferentes componetnes que se comparten infomacion entre si no se re-renderizen solo por que estan pasando informacio o deifiniendo funciones.
+
+- **memo:**
+  - Memoizes a component
+  - Re-memoizes when props change
+  - Avoids re-renders
+
+- **useMemo:**
+  - Memoizes a calculated value
+  - For computed properties
+  - For heavy processes
+  
+- **useCallback:**
+  - Memoizes a function definition to avoid redefining it on each render
+  - Use it whenever a function is passed as an effect argument
+  - Use it whenever a function is passed by props to a memoized component
+
+And finally, do not forget the golden rule: Do not use them until absolutely necessary.
+
+#### 3.1.2. useReducer Hook
+
+La explicacion de este libro es satisfactoria pero una informacion mejor esta en el repositorio de gridder.
